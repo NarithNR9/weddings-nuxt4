@@ -4,7 +4,11 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-05-15',
   future: { compatibilityVersion: 4 },
   devtools: { enabled: true },
-
+  devServer: {
+      port: 3000,
+      host: '0.0.0.0',
+  },
+  
   modules: ['@nuxtjs/i18n'],
 
   css: ['~/assets/css/main.css'],
@@ -48,6 +52,10 @@ export default defineNuxtConfig({
     public: {
       directusUrl: '',
       directusToken: '',
+      directusCeremoniesCollection: 'ceremonies1',
+      directusGalleryCollection: 'gallery_items1',
+      directusGuestsCollection: 'guests1',
+      directusWeddingSettingsIndex: 1,
     },
   },
 })

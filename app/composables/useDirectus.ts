@@ -2,6 +2,15 @@ export function useDirectus() {
   const config = useRuntimeConfig();
   const baseUrl = config.public.directusUrl as string;
   const token = config.public.directusToken as string;
+  const ceremoniesCollection =
+    (config.public.directusCeremoniesCollection as string) || "ceremonies1";
+  const galleryCollection =
+    (config.public.directusGalleryCollection as string) || "gallery_items1";
+  const guestsCollection =
+    (config.public.directusGuestsCollection as string) || "guests1";
+  const weddingSettingsIndex = Number(
+    config.public.directusWeddingSettingsIndex ?? 1,
+  );
 
   function directusFetch<T>(
     endpoint: string,
@@ -22,14 +31,15 @@ export function useDirectus() {
     const res = await directusFetch<DirectusResponse<WeddingSettings[]>>(
       "/items/wedding_settings",
       {
-        limit: "1",
+        limit: String(weddingSettingsIndex + 1),
+        sort: "id",
       },
     );
-    const settings = res.data[0];
+    const settings = res.data[weddingSettingsIndex];
     if (!settings) {
       throw createError({
         statusCode: 500,
-        statusMessage: "Wedding settings not found",
+        statusMessage: `Wedding settings not found at index ${weddingSettingsIndex}`,
       });
     }
     return settings;
@@ -37,7 +47,7 @@ export function useDirectus() {
 
   async function getCeremonies(): Promise<Ceremony[]> {
     const res = await directusFetch<DirectusResponse<Ceremony[]>>(
-      "/items/ceremonies",
+      `/items/${ceremoniesCollection}`,
       {
         sort: "sort",
       },
@@ -47,7 +57,7 @@ export function useDirectus() {
 
   async function getGallery(): Promise<GalleryItem[]> {
     const res = await directusFetch<DirectusResponse<GalleryItem[]>>(
-      "/items/gallery_items",
+      `/items/${galleryCollection}`,
       {
         sort: "sort",
       },
@@ -57,7 +67,7 @@ export function useDirectus() {
 
   async function getGuest(id: string): Promise<Guest> {
     const res = await directusFetch<DirectusResponse<Guest>>(
-      `/items/guests/${id}`,
+      `/items/${guestsCollection}/${id}`,
     );
     return res.data;
   }
