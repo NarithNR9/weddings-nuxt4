@@ -39,7 +39,7 @@ const day2Heading = computed(() =>
     <section class="relative py-20 px-2 text-white">
         <!-- Background image -->
         <div
-            class="absolute inset-0 bg-cover bg-center bg-fixed"
+            class="absolute inset-0 bg-cover bg-center md:bg-top bg-fixed"
             :style="{ backgroundImage: `url(${bgUrl})` }"
         />
         <div class="absolute inset-0 bg-black/60" />
@@ -67,11 +67,11 @@ const day2Heading = computed(() =>
                         :key="ceremony.id"
                         class="flex gap-2 py-3 first:pt-0 last:pb-0 border-b border-white/10 last:border-0 text-sm"
                     >
-                        <span class="w-1/2">
+                        <span class="w-2/5">
                             {{ formatTime(ceremony.time, locale) }}
                         </span>
                         <span>:</span>
-                        <span class="w-1/2">
+                        <span class="w-3/5">
                             {{ localized(ceremony, "title", locale) }}
                         </span>
                     </div>
@@ -94,12 +94,12 @@ const day2Heading = computed(() =>
                         :key="ceremony.id"
                         class="flex gap-2 py-3 first:pt-0 last:pb-0 border-b border-white/10 last:border-0"
                     >
-                        <span class="w-1/2 ">
+                        <span class="w-2/5 ">
                             {{ formatTime(ceremony.time, locale) }}
                         </span>
                         <span>:</span>
 
-                        <span class="w-1/2">
+                        <span class="w-3/5">
                             {{ localized(ceremony, "title", locale) }}
                         </span>
                     </div>

@@ -34,18 +34,19 @@ const KM_MONTHS = [
 
 export function formatFullDate(dateStr: string, locale: string): string {
   const date = new Date(dateStr)
+  const paddedDay = String(date.getDate()).padStart(2, '0')
   if (locale === 'km') {
     const weekday = KM_WEEKDAYS[date.getDay()]
-    const day = toKhmerDigits(date.getDate())
+    const day = toKhmerDigits(paddedDay)
     const month = KM_MONTHS[date.getMonth()]
     const year = toKhmerDigits(date.getFullYear())
     return `${weekday} \u1791\u17B8 ${day} \u1781\u17C2 ${month} \u1786\u17D2\u1793\u17B6\u17C6 ${year}`
   }
-  return new Intl.DateTimeFormat('en-US', {
+  return new Intl.DateTimeFormat('en-GB', {
     weekday: 'long',
     year: 'numeric',
     month: 'long',
-    day: 'numeric',
+    day: '2-digit',
   }).format(date)
 }
 
