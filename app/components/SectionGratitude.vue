@@ -21,7 +21,7 @@ const brideName = computed(() => localized(props.settings, 'bride_name', locale.
         {{ message }}
       </p>
       <p class="mt-8 font-display text-xl">
-        {{ groomName }} &amp; {{ brideName }}
+        {{ groomName }} <br/> &amp; <br/> {{ brideName }}
       </p>
     </div>
   </section>
