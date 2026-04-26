@@ -13,6 +13,15 @@ const emit = defineEmits<{ open: [] }>()
 const groomName = computed(() =>
     localized(props.settings, "groom_name", locale.value),
 );
+const groomNameLines = computed(() => {
+    const name = groomName.value.trim();
+    const firstSpaceIndex = name.search(/\s/);
+    if (firstSpaceIndex === -1) return [name];
+    return [
+        name.slice(0, firstSpaceIndex),
+        name.slice(firstSpaceIndex + 1).trimStart(),
+    ].filter(Boolean);
+});
 const brideName = computed(() =>
     localized(props.settings, "bride_name", locale.value),
 );
@@ -57,18 +66,19 @@ const KM_MONTHS = [
 const formattedDate = computed(() => {
     if (!props.settings.wedding_date) return "";
     const date = new Date(props.settings.wedding_date);
+    const paddedDay = String(date.getDate()).padStart(2, "0");
     if (locale.value === "km") {
         const weekday = KM_WEEKDAYS[date.getDay()];
-        const day = toKhmerDigits(date.getDate());
+        const day = toKhmerDigits(paddedDay);
         const month = KM_MONTHS[date.getMonth()];
         const year = toKhmerDigits(date.getFullYear());
         return `${weekday} ទី ${day} ខែ ${month} ឆ្នាំ ${year}`;
     }
-    return new Intl.DateTimeFormat("en-US", {
+    return new Intl.DateTimeFormat("en-GB", {
         weekday: "long",
         year: "numeric",
         month: "long",
-        day: "numeric",
+        day: "2-digit",
     }).format(date);
 });
 
@@ -113,13 +123,23 @@ const formattedTime = computed(() => {
 
         <!-- Center: names, hearts, tagline, decorative box -->
         <div
-            class="relative z-10 flex-1 flex flex-col items-center justify-center"
+            class="relative z-10 flex-1 flex flex-col items-center justify-end md:justify-center max-md:pb-12"
         >
             <h1
                 class="text-4xl md:text-3xl lg:text-6xl [text-shadow:0_2px_10px_rgba(0,0,0,0.7)] hero-anim"
                 style="font-family: var(--font-metal); animation-delay: 0.3s"
             >
-                {{ groomName }}
+                <span class="md:hidden">
+                    <span
+                        v-for="line in groomNameLines"
+                        :key="line"
+                        class="block"
+                        :class="{ 'mb-3': line !== groomNameLines[groomNameLines.length - 1] }"
+                    >
+                        {{ line }}
+                    </span>
+                </span>
+                <span class="hidden md:inline">{{ groomName }}</span>
             </h1>
 
             <img
