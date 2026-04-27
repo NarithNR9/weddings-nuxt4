@@ -30,13 +30,42 @@ html[lang="en"] body {
   font-family: var(--font-google-sans);
 }
 
+.fixed-bg-layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  clip-path: inset(0);
+  pointer-events: none;
+}
+
+.fixed-bg-layer::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: var(--fixed-bg-image);
+  background-size: cover;
+  background-position: var(--fixed-bg-position, center);
+  background-repeat: no-repeat;
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+@media (min-width: 768px) {
+  .fixed-bg-layer::before {
+    background-position: var(--fixed-bg-position-md, var(--fixed-bg-position, center));
+  }
+}
+
 /* Invitation reveal animation */
 .reveal-enter-active {
-  transition: opacity 0.9s ease, transform 0.9s ease;
+  transition: opacity 0.9s ease, clip-path 0.9s ease;
 }
 .reveal-enter-from {
   opacity: 0;
-  transform: translateY(40px);
+  clip-path: inset(40px 0 0);
+}
+.reveal-enter-to {
+  clip-path: inset(0);
 }
 
 /* Generic fade */

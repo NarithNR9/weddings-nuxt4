@@ -105,10 +105,7 @@ const formattedTime = computed(() => {
         class="relative h-screen flex flex-col items-center text-center text-white overflow-hidden"
     >
         <!-- Background image -->
-        <div
-            class="absolute inset-0 bg-cover bg-center bg-fixed md:bg-position-[center_top_20%]"
-            :style="{ backgroundImage: `url(${heroUrl})` }"
-        />
+        <AppFixedBackground :image-url="heroUrl" desktop-position="center top 20%" />
         <div class="absolute inset-0 bg-black/40" />
 
         <!-- Top: wedding invitation title (always shown) -->

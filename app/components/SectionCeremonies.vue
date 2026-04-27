@@ -38,10 +38,7 @@ const day2Heading = computed(() =>
 <template>
     <section class="relative py-20 px-2 text-white">
         <!-- Background image -->
-        <div
-            class="absolute inset-0 bg-cover bg-center md:bg-top bg-fixed"
-            :style="{ backgroundImage: `url(${bgUrl})` }"
-        />
+        <AppFixedBackground :image-url="bgUrl" desktop-position="top" />
         <div class="absolute inset-0 bg-black/60" />
 
         <div class="relative z-10 max-w-xl mx-auto" data-aos="fade-up">
